@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9121bf0135d24dff929630e62490803e" Name="Diagram1">
+        <EntityTypeShape EntityType="ESHCloudsModel.AlarmCategory" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.AlarmMaster" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.AlarmUpdate" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.ContentMaster" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.DepartData" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.FactoryMaster" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.FileMaster" Width="1.5" PointX="7.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.GroupDetail" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.LogMaster" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.MailLog" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.PeopleData" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESHCloudsModel.PeopleGroup" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="ESHCloudsModel.FK_AlarmMaster_AlarmCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="ESHCloudsModel.FK_AlarmMaster_FactoryMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ESHCloudsModel.FK_AlarmMaster_PeopleGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="ESHCloudsModel.FK_AlarmUpdate_AlarmMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ESHCloudsModel.FK_DepartData_FactoryMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ESHCloudsModel.FK_PeopleData_DepartData" ManuallyRouted="false" />
+        <AssociationConnector Association="ESHCloudsModel.FK_GroupDetail_PeopleGroup" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
