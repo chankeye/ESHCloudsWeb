@@ -39,6 +39,7 @@ namespace ESHCloudsWeb.DB
         public virtual DbSet<MailLog> MailLogs { get; set; }
         public virtual DbSet<PeopleData> PeopleDatas { get; set; }
         public virtual DbSet<PeopleGroup> PeopleGroups { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     
         public virtual int sp_CleatTestData()
         {

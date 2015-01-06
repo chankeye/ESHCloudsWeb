@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ESHCloudsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ESHCloudsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AlarmCategory">
           <Key>
             <PropertyRef Name="CN" />
@@ -83,8 +83,6 @@
         </EntityType>
         <EntityType Name="DepartData">
           <Key>
-            <PropertyRef Name="CN" />
-            <PropertyRef Name="FactoryID" />
             <PropertyRef Name="DepartID" />
           </Key>
           <Property Name="CN" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -94,7 +92,6 @@
         </EntityType>
         <EntityType Name="FactoryMaster">
           <Key>
-            <PropertyRef Name="CN" />
             <PropertyRef Name="FactoryID" />
           </Key>
           <Property Name="CN" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -153,9 +150,6 @@
         </EntityType>
         <EntityType Name="PeopleData">
           <Key>
-            <PropertyRef Name="CN" />
-            <PropertyRef Name="FactoryID" />
-            <PropertyRef Name="DepartID" />
             <PropertyRef Name="PeopleID" />
           </Key>
           <Property Name="CN" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -175,6 +169,16 @@
           <Property Name="GroupID" Type="int" Nullable="false" />
           <Property Name="GroupName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <Association Name="FK_AlarmMaster_AlarmCategory">
           <End Role="AlarmCategory" Type="Self.AlarmCategory" Multiplicity="1" />
           <End Role="AlarmMaster" Type="Self.AlarmMaster" Multiplicity="*" />
@@ -186,20 +190,6 @@
             <Dependent Role="AlarmMaster">
               <PropertyRef Name="CN" />
               <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AlarmMaster_FactoryMaster">
-          <End Role="FactoryMaster" Type="Self.FactoryMaster" Multiplicity="1" />
-          <End Role="AlarmMaster" Type="Self.AlarmMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FactoryMaster">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="FactoryID" />
-            </Principal>
-            <Dependent Role="AlarmMaster">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="FactoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -231,20 +221,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DepartData_FactoryMaster">
-          <End Role="FactoryMaster" Type="Self.FactoryMaster" Multiplicity="1" />
-          <End Role="DepartData" Type="Self.DepartData" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FactoryMaster">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="FactoryID" />
-            </Principal>
-            <Dependent Role="DepartData">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="FactoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_GroupDetail_PeopleGroup">
           <End Role="PeopleGroup" Type="Self.PeopleGroup" Multiplicity="1" />
           <End Role="GroupDetail" Type="Self.GroupDetail" Multiplicity="*" />
@@ -256,22 +232,6 @@
             <Dependent Role="GroupDetail">
               <PropertyRef Name="CN" />
               <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PeopleData_DepartData">
-          <End Role="DepartData" Type="Self.DepartData" Multiplicity="1" />
-          <End Role="PeopleData" Type="Self.PeopleData" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DepartData">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="FactoryID" />
-              <PropertyRef Name="DepartID" />
-            </Principal>
-            <Dependent Role="PeopleData">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="FactoryID" />
-              <PropertyRef Name="DepartID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -292,12 +252,9 @@
           <EntitySet Name="MailLog" EntityType="Self.MailLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PeopleData" EntityType="Self.PeopleData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PeopleGroup" EntityType="Self.PeopleGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AlarmMaster_AlarmCategory" Association="Self.FK_AlarmMaster_AlarmCategory">
             <End Role="AlarmCategory" EntitySet="AlarmCategory" />
-            <End Role="AlarmMaster" EntitySet="AlarmMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AlarmMaster_FactoryMaster" Association="Self.FK_AlarmMaster_FactoryMaster">
-            <End Role="FactoryMaster" EntitySet="FactoryMaster" />
             <End Role="AlarmMaster" EntitySet="AlarmMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_AlarmMaster_PeopleGroup" Association="Self.FK_AlarmMaster_PeopleGroup">
@@ -308,21 +265,12 @@
             <End Role="AlarmMaster" EntitySet="AlarmMaster" />
             <End Role="AlarmUpdate" EntitySet="AlarmUpdate" />
           </AssociationSet>
-          <AssociationSet Name="FK_DepartData_FactoryMaster" Association="Self.FK_DepartData_FactoryMaster">
-            <End Role="FactoryMaster" EntitySet="FactoryMaster" />
-            <End Role="DepartData" EntitySet="DepartData" />
-          </AssociationSet>
           <AssociationSet Name="FK_GroupDetail_PeopleGroup" Association="Self.FK_GroupDetail_PeopleGroup">
             <End Role="PeopleGroup" EntitySet="PeopleGroup" />
             <End Role="GroupDetail" EntitySet="GroupDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_PeopleData_DepartData" Association="Self.FK_PeopleData_DepartData">
-            <End Role="DepartData" EntitySet="DepartData" />
-            <End Role="PeopleData" EntitySet="PeopleData" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ESHCloudsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -410,8 +358,6 @@
         </EntityType>
         <EntityType Name="DepartData">
           <Key>
-            <PropertyRef Name="CN" />
-            <PropertyRef Name="FactoryID" />
             <PropertyRef Name="DepartID" />
           </Key>
           <Property Name="CN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -423,7 +369,6 @@
         </EntityType>
         <EntityType Name="FactoryMaster">
           <Key>
-            <PropertyRef Name="CN" />
             <PropertyRef Name="FactoryID" />
           </Key>
           <Property Name="CN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -485,9 +430,6 @@
         </EntityType>
         <EntityType Name="PeopleData">
           <Key>
-            <PropertyRef Name="CN" />
-            <PropertyRef Name="FactoryID" />
-            <PropertyRef Name="DepartID" />
             <PropertyRef Name="PeopleID" />
           </Key>
           <Property Name="CN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -529,11 +471,9 @@
           <End Role="AlarmMaster" Type="Self.AlarmMaster" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FactoryMaster">
-              <PropertyRef Name="CN" />
               <PropertyRef Name="FactoryID" />
             </Principal>
             <Dependent Role="AlarmMaster">
-              <PropertyRef Name="CN" />
               <PropertyRef Name="FactoryID" />
             </Dependent>
           </ReferentialConstraint>
@@ -571,11 +511,9 @@
           <End Role="DepartData" Type="Self.DepartData" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FactoryMaster">
-              <PropertyRef Name="CN" />
               <PropertyRef Name="FactoryID" />
             </Principal>
             <Dependent Role="DepartData">
-              <PropertyRef Name="CN" />
               <PropertyRef Name="FactoryID" />
             </Dependent>
           </ReferentialConstraint>
@@ -585,13 +523,9 @@
           <End Role="PeopleData" Type="Self.PeopleData" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DepartData">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="FactoryID" />
               <PropertyRef Name="DepartID" />
             </Principal>
             <Dependent Role="PeopleData">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="FactoryID" />
               <PropertyRef Name="DepartID" />
             </Dependent>
           </ReferentialConstraint>
@@ -653,9 +587,20 @@
           </AssociationSet>
           <FunctionImport Name="sp_CleatTestData" />
           <FunctionImport Name="sp_GetAlarmMasterId" ReturnType="Collection(String)">
-            <Parameter Name="CN" Mode="In" Type="String" />
+          <Parameter Name="CN" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="sysdiagrams" EntityType="ESHCloudsModel.sysdiagram" />
         </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -833,6 +778,17 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_CleatTestData" FunctionName="ESHCloudsModel.Store.sp_CleatTestData" />
           <FunctionImportMapping FunctionImportName="sp_GetAlarmMasterId" FunctionName="ESHCloudsModel.Store.sp_GetAlarmMasterId" />
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ESHCloudsModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

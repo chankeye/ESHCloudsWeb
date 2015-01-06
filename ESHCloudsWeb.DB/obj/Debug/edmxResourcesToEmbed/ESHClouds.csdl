@@ -84,8 +84,6 @@
   </EntityType>
   <EntityType Name="DepartData">
     <Key>
-      <PropertyRef Name="CN" />
-      <PropertyRef Name="FactoryID" />
       <PropertyRef Name="DepartID" />
     </Key>
     <Property Name="CN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -97,7 +95,6 @@
   </EntityType>
   <EntityType Name="FactoryMaster">
     <Key>
-      <PropertyRef Name="CN" />
       <PropertyRef Name="FactoryID" />
     </Key>
     <Property Name="CN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -159,9 +156,6 @@
   </EntityType>
   <EntityType Name="PeopleData">
     <Key>
-      <PropertyRef Name="CN" />
-      <PropertyRef Name="FactoryID" />
-      <PropertyRef Name="DepartID" />
       <PropertyRef Name="PeopleID" />
     </Key>
     <Property Name="CN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -203,11 +197,9 @@
     <End Role="AlarmMaster" Type="Self.AlarmMaster" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="FactoryMaster">
-        <PropertyRef Name="CN" />
         <PropertyRef Name="FactoryID" />
       </Principal>
       <Dependent Role="AlarmMaster">
-        <PropertyRef Name="CN" />
         <PropertyRef Name="FactoryID" />
       </Dependent>
     </ReferentialConstraint>
@@ -245,11 +237,9 @@
     <End Role="DepartData" Type="Self.DepartData" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="FactoryMaster">
-        <PropertyRef Name="CN" />
         <PropertyRef Name="FactoryID" />
       </Principal>
       <Dependent Role="DepartData">
-        <PropertyRef Name="CN" />
         <PropertyRef Name="FactoryID" />
       </Dependent>
     </ReferentialConstraint>
@@ -259,13 +249,9 @@
     <End Role="PeopleData" Type="Self.PeopleData" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="DepartData">
-        <PropertyRef Name="CN" />
-        <PropertyRef Name="FactoryID" />
         <PropertyRef Name="DepartID" />
       </Principal>
       <Dependent Role="PeopleData">
-        <PropertyRef Name="CN" />
-        <PropertyRef Name="FactoryID" />
         <PropertyRef Name="DepartID" />
       </Dependent>
     </ReferentialConstraint>
@@ -329,5 +315,16 @@
     <FunctionImport Name="sp_GetAlarmMasterId" ReturnType="Collection(String)">
       <Parameter Name="CN" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="sysdiagrams" EntityType="ESHCloudsModel.sysdiagram" />
   </EntityContainer>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
 </Schema>

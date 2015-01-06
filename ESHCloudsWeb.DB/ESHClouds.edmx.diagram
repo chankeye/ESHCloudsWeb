@@ -24,6 +24,7 @@
         <AssociationConnector Association="ESHCloudsModel.FK_DepartData_FactoryMaster" ManuallyRouted="false" />
         <AssociationConnector Association="ESHCloudsModel.FK_PeopleData_DepartData" ManuallyRouted="false" />
         <AssociationConnector Association="ESHCloudsModel.FK_GroupDetail_PeopleGroup" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ESHCloudsModel.sysdiagram" Width="1.5" PointX="7.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -12,8 +12,7 @@ namespace MemberCRUD.DTO
     public class PeopleData
     {
         public string CN { get; set; }
-        public int FactoryID { get; set; }
-        public int DepartID { get; set; }
+        public DepartData Depart { get; set; }
         public string PeopleID { get; set; }
         public string Pasd { get; set; }
         public string Name { get; set; }

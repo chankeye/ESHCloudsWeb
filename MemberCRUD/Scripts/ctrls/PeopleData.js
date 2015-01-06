@@ -1,5 +1,4 @@
 ﻿$(function () {
-    var pageSize = 5;
     var dataSource = new kendo.data.DataSource({
         transport: {
             read: {
@@ -50,15 +49,14 @@
                 fields: {
                     PeopleID: { editable: false, nullable: true },
                     CN: { validation: { required: true } },
-                    FactoryID: { validation: { required: true } },
-                    DepartID: { validation: { required: true } },
+                    Depart: { defaultValue: { DepartID: 0, DepartName: "Please wait" } },
                     Pasd: { validation: { required: true } },
                     Name: { validation: { required: true } },
-                    Mail: { validation: { required: true } },
+                    Mail: { type: "email", validation: { required: true } },
                 }
             }
         },
-        pageSize: pageSize,
+        pageSize: 10,
         serverPaging: true,
         serverSorting: true
     });
@@ -71,11 +69,29 @@
         columns: [
             "Name",
             { field: "CN", title: "CN" },
-            { field: "FactoryID", title: "FactoryID" },
-            { field: "DepartID", title: "DepartID" },
+            { field: "Depart", title: "Depart", width: "180px", editor: departDropDownEditor, template: "#=Depart.DepartName#" },
             { field: "Pasd", title: "Pasd" },
             { field: "Mail", title: "Mail" },
             { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
         editable: "inline"
     });
+
+    function departDropDownEditor(container, options) {
+        $('<input required data-text-field="DepartName" data-value-field="DepartID" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                autoBind: false,
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            type: "POST",
+                            url: "/PeopleData/GetDepartList",
+                            dataType: "json",
+                            contentType: "application/json"
+                        },
+                    }
+                }
+            });
+    }
 });
