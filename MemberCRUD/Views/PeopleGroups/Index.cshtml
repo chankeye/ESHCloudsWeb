@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ESHCloudsWeb.DB.PeopleGroup>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section Scripts{
+    <script src="~/Scripts/ctrls/PeopleGroup.js"></script>
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="example">
+    <div id="grid"></div>
+</div>
+@*<table id="peopleGroupTable" class="table">
+    <tr>
+        <th>
+            廠區名稱
+        </th>
+        <th>
+            群組名稱
+        </th>
+        <th></th>
+    </tr>
+    <tbody id="myfruit">
+        @foreach (var item in Model.OrderBy(r => r.GroupOrder))
+        {
+            <tr id="@Html.DisplayFor(modelItem => item.GroupOrder)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CN)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.GroupID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>*@

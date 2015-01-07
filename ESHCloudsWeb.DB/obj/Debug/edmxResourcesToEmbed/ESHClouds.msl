@@ -164,6 +164,7 @@
     <EntitySetMapping Name="PeopleGroups">
       <EntityTypeMapping TypeName="ESHCloudsModel.PeopleGroup">
         <MappingFragment StoreEntitySet="PeopleGroup">
+          <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
           <ScalarProperty Name="CN" ColumnName="CN" />
           <ScalarProperty Name="GroupID" ColumnName="GroupID" />
           <ScalarProperty Name="GroupName" ColumnName="GroupName" />

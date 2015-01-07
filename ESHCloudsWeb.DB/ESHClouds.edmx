@@ -115,7 +115,6 @@
         </EntityType>
         <EntityType Name="GroupDetail">
           <Key>
-            <PropertyRef Name="CN" />
             <PropertyRef Name="GroupID" />
             <PropertyRef Name="PeopleID" />
           </Key>
@@ -162,12 +161,12 @@
         </EntityType>
         <EntityType Name="PeopleGroup">
           <Key>
-            <PropertyRef Name="CN" />
             <PropertyRef Name="GroupID" />
           </Key>
           <Property Name="CN" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="GroupID" Type="int" Nullable="false" />
           <Property Name="GroupName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupOrder" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -193,20 +192,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AlarmMaster_PeopleGroup">
-          <End Role="PeopleGroup" Type="Self.PeopleGroup" Multiplicity="0..1" />
-          <End Role="AlarmMaster" Type="Self.AlarmMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PeopleGroup">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="GroupID" />
-            </Principal>
-            <Dependent Role="AlarmMaster">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="AlarmToGroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_AlarmUpdate_AlarmMaster">
           <End Role="AlarmMaster" Type="Self.AlarmMaster" Multiplicity="1" />
           <End Role="AlarmUpdate" Type="Self.AlarmUpdate" Multiplicity="*" />
@@ -218,20 +203,6 @@
             <Dependent Role="AlarmUpdate">
               <PropertyRef Name="CN" />
               <PropertyRef Name="AlarmID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GroupDetail_PeopleGroup">
-          <End Role="PeopleGroup" Type="Self.PeopleGroup" Multiplicity="1" />
-          <End Role="GroupDetail" Type="Self.GroupDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PeopleGroup">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="GroupID" />
-            </Principal>
-            <Dependent Role="GroupDetail">
-              <PropertyRef Name="CN" />
-              <PropertyRef Name="GroupID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -257,17 +228,9 @@
             <End Role="AlarmCategory" EntitySet="AlarmCategory" />
             <End Role="AlarmMaster" EntitySet="AlarmMaster" />
           </AssociationSet>
-          <AssociationSet Name="FK_AlarmMaster_PeopleGroup" Association="Self.FK_AlarmMaster_PeopleGroup">
-            <End Role="PeopleGroup" EntitySet="PeopleGroup" />
-            <End Role="AlarmMaster" EntitySet="AlarmMaster" />
-          </AssociationSet>
           <AssociationSet Name="FK_AlarmUpdate_AlarmMaster" Association="Self.FK_AlarmUpdate_AlarmMaster">
             <End Role="AlarmMaster" EntitySet="AlarmMaster" />
             <End Role="AlarmUpdate" EntitySet="AlarmUpdate" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupDetail_PeopleGroup" Association="Self.FK_GroupDetail_PeopleGroup">
-            <End Role="PeopleGroup" EntitySet="PeopleGroup" />
-            <End Role="GroupDetail" EntitySet="GroupDetail" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -394,7 +357,6 @@
         </EntityType>
         <EntityType Name="GroupDetail">
           <Key>
-            <PropertyRef Name="CN" />
             <PropertyRef Name="GroupID" />
             <PropertyRef Name="PeopleID" />
           </Key>
@@ -443,7 +405,6 @@
         </EntityType>
         <EntityType Name="PeopleGroup">
           <Key>
-            <PropertyRef Name="CN" />
             <PropertyRef Name="GroupID" />
           </Key>
           <Property Name="CN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -451,6 +412,7 @@
           <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AlarmMasters" Relationship="Self.FK_AlarmMaster_PeopleGroup" FromRole="PeopleGroup" ToRole="AlarmMaster" />
           <NavigationProperty Name="GroupDetails" Relationship="Self.FK_GroupDetail_PeopleGroup" FromRole="PeopleGroup" ToRole="GroupDetail" />
+          <Property Name="GroupOrder" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_AlarmMaster_AlarmCategory">
           <End Role="AlarmCategory" Type="Self.AlarmCategory" Multiplicity="1" />
@@ -483,11 +445,9 @@
           <End Role="AlarmMaster" Type="Self.AlarmMaster" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PeopleGroup">
-              <PropertyRef Name="CN" />
               <PropertyRef Name="GroupID" />
             </Principal>
             <Dependent Role="AlarmMaster">
-              <PropertyRef Name="CN" />
               <PropertyRef Name="AlarmToGroupID" />
             </Dependent>
           </ReferentialConstraint>
@@ -535,11 +495,9 @@
           <End Role="GroupDetail" Type="Self.GroupDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PeopleGroup">
-              <PropertyRef Name="CN" />
               <PropertyRef Name="GroupID" />
             </Principal>
             <Dependent Role="GroupDetail">
-              <PropertyRef Name="CN" />
               <PropertyRef Name="GroupID" />
             </Dependent>
           </ReferentialConstraint>
@@ -770,6 +728,7 @@
           <EntitySetMapping Name="PeopleGroups">
             <EntityTypeMapping TypeName="ESHCloudsModel.PeopleGroup">
               <MappingFragment StoreEntitySet="PeopleGroup">
+                <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
                 <ScalarProperty Name="CN" ColumnName="CN" />
                 <ScalarProperty Name="GroupID" ColumnName="GroupID" />
                 <ScalarProperty Name="GroupName" ColumnName="GroupName" />

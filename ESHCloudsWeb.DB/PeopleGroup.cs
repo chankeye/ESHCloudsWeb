@@ -24,6 +24,7 @@ namespace ESHCloudsWeb.DB
         public string CN { get; set; }
         public int GroupID { get; set; }
         public string GroupName { get; set; }
+        public int GroupOrder { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlarmMaster> AlarmMasters { get; set; }
