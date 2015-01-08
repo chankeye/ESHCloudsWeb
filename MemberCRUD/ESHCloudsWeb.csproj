@@ -867,6 +867,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PeopleDataController.cs" />
     <Compile Include="Controllers\PeopleGroupsController.cs" />
+    <Compile Include="DTO\FactoryData.cs" />
     <Compile Include="DTO\DepartData.cs" />
     <Compile Include="DTO\PeopleGroupDetail.cs" />
     <Compile Include="DTO\PeopleGroup.cs" />
