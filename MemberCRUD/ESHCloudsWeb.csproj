@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MemberCRUD</RootNamespace>
-    <AssemblyName>MemberCRUD</AssemblyName>
+    <RootNamespace>ESHCloudsWeb</RootNamespace>
+    <AssemblyName>ESHCloudsWeb</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -876,6 +876,35 @@
     </Compile>
     <Compile Include="Logic\PeopleGroupLogic.cs" />
     <Compile Include="Logic\PeopleDataLogic.cs" />
+    <Compile Include="Models\AlarmCategory.cs" />
+    <Compile Include="Models\AlarmMaster.cs" />
+    <Compile Include="Models\AlarmUpdate.cs" />
+    <Compile Include="Models\CompanyMaster.cs" />
+    <Compile Include="Models\ContentMaster.cs" />
+    <Compile Include="Models\DepartData.cs" />
+    <Compile Include="Models\ESHCloudsV2Context.cs" />
+    <Compile Include="Models\FactoryMaster.cs" />
+    <Compile Include="Models\FileMaster.cs" />
+    <Compile Include="Models\GroupDetail.cs" />
+    <Compile Include="Models\LogMaster.cs" />
+    <Compile Include="Models\MailLog.cs" />
+    <Compile Include="Models\Mapping\AlarmCategoryMap.cs" />
+    <Compile Include="Models\Mapping\AlarmMasterMap.cs" />
+    <Compile Include="Models\Mapping\AlarmUpdateMap.cs" />
+    <Compile Include="Models\Mapping\CompanyMasterMap.cs" />
+    <Compile Include="Models\Mapping\ContentMasterMap.cs" />
+    <Compile Include="Models\Mapping\DepartDataMap.cs" />
+    <Compile Include="Models\Mapping\FactoryMasterMap.cs" />
+    <Compile Include="Models\Mapping\FileMasterMap.cs" />
+    <Compile Include="Models\Mapping\GroupDetailMap.cs" />
+    <Compile Include="Models\Mapping\LogMasterMap.cs" />
+    <Compile Include="Models\Mapping\MailLogMap.cs" />
+    <Compile Include="Models\Mapping\PeopleDataMap.cs" />
+    <Compile Include="Models\Mapping\PeopleGroupMap.cs" />
+    <Compile Include="Models\Mapping\sysdiagramMap.cs" />
+    <Compile Include="Models\PeopleData.cs" />
+    <Compile Include="Models\PeopleGroup.cs" />
+    <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1009,13 +1038,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ESHCloudsWeb.DB\ESHCloudsWeb.DB.csproj">
-      <Project>{ddf9e7f4-40db-4099-a700-6311b8d45129}</Project>
-      <Name>ESHCloudsWeb.DB</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

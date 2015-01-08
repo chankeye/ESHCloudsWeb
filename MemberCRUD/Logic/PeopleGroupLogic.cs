@@ -1,24 +1,29 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
-using MemberCRUD.DTO;
-using System.Linq;
+﻿using System;
 using System.Data.Entity;
+using System.Linq;
+using ESHCloudsWeb.DTO;
 
-namespace MemberCRUD.Logic
+namespace ESHCloudsWeb.Logic
 {
     public class PeopleGroupLogic
     {
-        private ESHCloudsWeb.DB.ESHCloudsEntities db = new ESHCloudsWeb.DB.ESHCloudsEntities();
+        /// <summary>
+        /// ESHCloudsV2Context
+        /// </summary>
+        protected Models.ESHCloudsV2Context ESHCloudsContext
+        {
+            get { return _ESHCloudsContext.Value; }
+        }
+        Lazy<Models.ESHCloudsV2Context> _ESHCloudsContext = new Lazy<Models.ESHCloudsV2Context>();
 
         public PeopleGroupList GetPeopleGroupList(int skip, int take)
         {
-            var list = db.PeopleGroups
+            var list = ESHCloudsContext.PeopleGroups
                 .OrderBy(r => r.GroupOrder)
                 .Include(r=> r.GroupDetails)
                 .Select(r => new PeopleGroup
                 {
-                    CN = r.CN,
+                    FactoryName = r.FactoryMaster.FactoryName,
                     GroupID = r.GroupID,
                     GroupName = r.GroupName,
                     GroupOrder = r.GroupOrder,
@@ -26,13 +31,13 @@ namespace MemberCRUD.Logic
                     {
                         PeopleID = s.PeopleID,
                         MailType = s.MailType
-                    }).ToList()
+                    }).ToList(),
                 })
                 .Skip(skip)
                 .Take(take)
                 .ToList();
 
-            var count = db.PeopleGroups.Count();
+            var count = ESHCloudsContext.PeopleGroups.Count();
             var result = new PeopleGroupList
             {
                 PeopleGroupDataList = list,

@@ -1,8 +1,8 @@
-﻿using MemberCRUD.DTO;
-using MemberCRUD.Logic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using ESHCloudsWeb.DTO;
+using ESHCloudsWeb.Logic;
 
-namespace MemberCRUD.Controllers
+namespace ESHCloudsWeb.Controllers
 {
     public class PeopleDataController : Controller
     {
@@ -41,7 +41,7 @@ namespace MemberCRUD.Controllers
             return Json(result);
         }
 
-        public ActionResult Delete(string personId)
+        public ActionResult Delete(int personId)
         {
             var result = PeopleDataLogic.DeletePersion(personId);
             return Json(result);

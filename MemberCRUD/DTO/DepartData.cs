@@ -1,4 +1,4 @@
-﻿namespace MemberCRUD.DTO
+﻿namespace ESHCloudsWeb.DTO
 {
     public class DepartData
     {

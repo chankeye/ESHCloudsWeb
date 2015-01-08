@@ -1,8 +1,9 @@
-﻿namespace MemberCRUD.DTO
+﻿namespace ESHCloudsWeb.DTO
 {
     public class PeopleGroupDetail
     {
-        public string PeopleID { get; set; }
+        public int PeopleID { get; set; }
+        public string UserID { get; set; }
         public string MailType { get; set; }
     }
 }

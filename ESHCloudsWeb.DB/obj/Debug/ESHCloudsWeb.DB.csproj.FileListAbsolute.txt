@@ -7,3 +7,4 @@ C:\Users\Chankeye Chen\Documents\Visual Studio 2013\Projects\MemberCRUD\ESHCloud
 C:\Users\Chankeye Chen\Documents\Visual Studio 2013\Projects\MemberCRUD\ESHCloudsWeb.DB\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Chankeye Chen\Documents\Visual Studio 2013\Projects\MemberCRUD\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.dll
 C:\Users\Chankeye Chen\Documents\Visual Studio 2013\Projects\MemberCRUD\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.pdb
+C:\Users\Chankeye Chen\documents\visual studio 2013\Projects\MemberCRUD\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.csprojResolveAssemblyReference.cache

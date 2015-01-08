@@ -1,15 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
-using MemberCRUD.DTO;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using ESHCloudsWeb.DTO;
 
-namespace MemberCRUD.Logic
+namespace ESHCloudsWeb.Logic
 {
     public class PeopleDataLogic
     {
-        private ESHCloudsWeb.DB.ESHCloudsEntities db = new ESHCloudsWeb.DB.ESHCloudsEntities();
+        /// <summary>
+        /// ESHCloudsV2Context
+        /// </summary>
+        protected Models.ESHCloudsV2Context ESHCloudsContext
+        {
+            get { return _ESHCloudsContext.Value; }
+        }
+        Lazy<Models.ESHCloudsV2Context> _ESHCloudsContext = new Lazy<Models.ESHCloudsV2Context>();
 
         //public PeopleDataLogic()
         //{
@@ -18,18 +24,19 @@ namespace MemberCRUD.Logic
 
         public PeopleList GetPeopleList(int skip, int take)
         {
-            var list = db.PeopleDatas
-                .OrderByDescending(r => r.CN)
+            var list = ESHCloudsContext.PeopleDatas
+                .OrderByDescending(r => r.PeopleID)
+                .Include(r => r.DepartData)
                 .Select(r => new PeopleData
                 {
-                    CN = r.CN,
                     Depart = new DepartData
                     {
                         DepartID = r.DepartID,
-                        DepartName = r.DepartData.DepartName
+                        DepartName = r.DepartData.DepartName,
                     },
                     PeopleID = r.PeopleID,
-                    Pasd = r.Pasd,
+                    UserID = r.UserID,
+                    UserPasd = r.UserPasd,
                     Name = r.Name,
                     Mail = r.Mail
                 })
@@ -37,7 +44,7 @@ namespace MemberCRUD.Logic
                 .Take(take)
                 .ToList();
 
-            var count = db.PeopleDatas.Count();
+            var count = ESHCloudsContext.PeopleDatas.Count();
             var result = new PeopleList
             {
                 PeopleDataList = list,
@@ -49,10 +56,10 @@ namespace MemberCRUD.Logic
 
         public bool CreatePersion(PeopleData data)
         {
-            if (string.IsNullOrWhiteSpace(data.CN))
+            if (string.IsNullOrWhiteSpace(data.UserID))
                 return false;
 
-            if (string.IsNullOrWhiteSpace(data.Pasd))
+            if (string.IsNullOrWhiteSpace(data.UserPasd))
                 return false;
 
             if (string.IsNullOrWhiteSpace(data.Name))
@@ -61,33 +68,38 @@ namespace MemberCRUD.Logic
             if (string.IsNullOrWhiteSpace(data.Mail))
                 return false;
 
-            var depart = db.DepartDatas.SingleOrDefault(r => r.DepartID == data.Depart.DepartID);
+            var depart = ESHCloudsContext.DepartDatas.SingleOrDefault(r => r.DepartID == data.Depart.DepartID);
             if (depart == null)
                 return false;
 
-            var person = new ESHCloudsWeb.DB.PeopleData
+            var hasUserID = ESHCloudsContext.PeopleDatas
+                .Any(r =>
+                    r.DepartData.FactoryMaster.CN == depart.FactoryMaster.CN &&
+                    r.UserID == data.UserID);
+            if (hasUserID == true)
+                return false;
+
+            var person = new Models.PeopleData
             {
-                CN = data.CN,
-                FactoryID = depart.FactoryID,
                 DepartData = depart,
-                PeopleID = data.Name,
-                Pasd = data.Pasd,
+                UserID = data.UserID,
+                UserPasd = data.UserPasd,
                 Name = data.Name,
                 Mail = data.Mail
             };
 
-            db.PeopleDatas.Add(person);
-            db.SaveChanges();
+            ESHCloudsContext.PeopleDatas.Add(person);
+            ESHCloudsContext.SaveChanges();
 
             return true;
         }
 
         public bool EditPersion(PeopleData data)
         {
-            if (string.IsNullOrWhiteSpace(data.CN))
+            if (string.IsNullOrWhiteSpace(data.UserID))
                 return false;
 
-            if (string.IsNullOrWhiteSpace(data.Pasd))
+            if (string.IsNullOrWhiteSpace(data.UserPasd))
                 return false;
 
             if (string.IsNullOrWhiteSpace(data.Name))
@@ -96,49 +108,65 @@ namespace MemberCRUD.Logic
             if (string.IsNullOrWhiteSpace(data.Mail))
                 return false;
 
-            var person = db.PeopleDatas
+            var person = ESHCloudsContext.PeopleDatas
                 .Include(r => r.DepartData)
                 .SingleOrDefault(r => r.PeopleID == data.PeopleID);
 
             if (person == null)
                 return false;
 
-            var depart = db.DepartDatas.SingleOrDefault(r => r.DepartID == data.Depart.DepartID);
+            var depart = ESHCloudsContext.DepartDatas.SingleOrDefault(r => r.DepartID == data.Depart.DepartID);
             if (depart == null)
                 return false;
 
-            person.CN = data.CN;
-            person.FactoryID = depart.FactoryID;
+            var hasUserID = ESHCloudsContext.PeopleDatas
+                .Any(r =>
+                    r.DepartData.FactoryMaster.CN == depart.FactoryMaster.CN &&
+                    r.UserID == data.UserID &&
+                    r.UserID != person.UserID);
+            if (hasUserID == true)
+                return false;
+
             person.DepartData = depart;
-            person.Pasd = data.Pasd;
+            person.UserID = data.UserID;
+            person.UserPasd = data.UserPasd;
             person.Name = data.Name;
             person.Mail = data.Mail;
 
-            db.SaveChanges();
+            ESHCloudsContext.SaveChanges();
 
             return true;
         }
 
-        public bool DeletePersion(string personId)
+        public bool DeletePersion(int peopleID)
         {
-            var person = db.PeopleDatas.SingleOrDefault(r => r.PeopleID == personId);
-            if (person == null)
+            var people = ESHCloudsContext.PeopleDatas.SingleOrDefault(r => r.PeopleID == peopleID);
+            if (people == null)
                 return false;
 
-            db.PeopleDatas.Remove(person);
-            db.SaveChanges();
+            ESHCloudsContext.PeopleDatas.Remove(people);
+            ESHCloudsContext.SaveChanges();
             return true;
         }
 
         public List<DepartData> GetDepartList()
         {
-            var list = db.DepartDatas
+            List<DepartData> list = new List<DepartData>
+            {
+                new DepartData
+                {
+                    DepartID = 0,
+                    DepartName = "請選擇..."
+                }
+            };
+                
+            list.AddRange(ESHCloudsContext.DepartDatas
                 .Select(r => new DepartData
                 {
                     DepartID = r.DepartID,
                     DepartName = r.DepartName
                 })
-                .ToList();
+                .ToList());
 
             return list;
         }

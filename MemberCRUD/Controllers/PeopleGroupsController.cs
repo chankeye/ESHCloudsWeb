@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using ESHCloudsWeb.DB;
-using MemberCRUD.Logic;
+﻿using System.Web.Mvc;
+using ESHCloudsWeb.Logic;
 
-namespace MemberCRUD.Controllers
+namespace ESHCloudsWeb.Controllers
 {
     public class PeopleGroupsController : Controller
     {

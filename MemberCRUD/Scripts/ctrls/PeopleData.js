@@ -48,17 +48,23 @@
                 id: "PeopleID",
                 fields: {
                     PeopleID: { editable: false, nullable: true },
-                    CN: { validation: { required: true } },
-                    Depart: { defaultValue: { DepartID: 0, DepartName: "Please wait" } },
-                    Pasd: { validation: { required: true } },
+                    Depart: { defaultValue: { DepartID: 0, DepartName: "請選擇..." } },
+                    UserID: { validation: { required: true } },
+                    UserPasd: { validation: { required: true } },
                     Name: { validation: { required: true } },
                     Mail: { type: "email", validation: { required: true } },
                 }
             }
         },
+        requestEnd: function(e) {
+            if (e.response == false) {
+                alert('had something error');
+                location.reload();
+            }
+        },
         pageSize: 10,
         serverPaging: true,
-        serverSorting: true
+        serverSorting: true,
     });
 
     $("#grid").kendoGrid({
@@ -67,10 +73,10 @@
         height: 550,
         toolbar: ["create"],
         columns: [
-            "Name",
-            { field: "CN", title: "CN" },
+            { field: "Name", title: "Name" },
+            { field: "UserID", title: "UserID" },
+            { field: "UserPasd", title: "UserPasd" },
             { field: "Depart", title: "Depart", width: "180px", editor: departDropDownEditor, template: "#=Depart.DepartName#" },
-            { field: "Pasd", title: "Pasd" },
             { field: "Mail", title: "Mail" },
             { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
         editable: "inline"

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MemberCRUD.DTO
+namespace ESHCloudsWeb.DTO
 {
     public class PeopleList
     {
@@ -11,10 +11,10 @@ namespace MemberCRUD.DTO
 
     public class PeopleData
     {
-        public string CN { get; set; }
         public DepartData Depart { get; set; }
-        public string PeopleID { get; set; }
-        public string Pasd { get; set; }
+        public int PeopleID { get; set; }
+        public string UserID { get; set; }
+        public string UserPasd { get; set; }
         public string Name { get; set; }
         public string Mail { get; set; }
     }
