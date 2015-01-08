@@ -56,7 +56,7 @@
                 }
             }
         },
-        requestEnd: function(e) {
+        requestEnd: function (e) {
             if (e.response == false) {
                 alert('had something error');
                 $('#grid').data("kendoGrid").cancelChanges();

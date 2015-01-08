@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ESHCloudsWeb.DTO;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using ESHCloudsWeb.DTO;
 
 namespace ESHCloudsWeb.Logic
 {
@@ -159,7 +159,7 @@ namespace ESHCloudsWeb.Logic
                     DepartName = "請選擇..."
                 }
             };
-                
+
             list.AddRange(ESHCloudsContext.DepartDatas
                 .Select(r => new DepartData
                 {
