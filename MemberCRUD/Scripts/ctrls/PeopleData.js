@@ -59,7 +59,8 @@
         requestEnd: function(e) {
             if (e.response == false) {
                 alert('had something error');
-                location.reload();
+                $('#grid').data("kendoGrid").cancelChanges();
+                //location.reload();
             }
         },
         pageSize: 10,
