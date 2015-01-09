@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core;
 using System.Linq;
+using System.Security.Cryptography;
 using ESHCloudsWeb.DTO;
 
 namespace ESHCloudsWeb.Logic
@@ -19,7 +21,25 @@ namespace ESHCloudsWeb.Logic
 
         public PeopleGroupList GetPeopleGroupList(int skip, int take, string keyWord, int factoryId)
         {
-            var list = ESHCloudsContext.PeopleGroups
+            IQueryable<Models.PeopleGroup> peoplegroups = ESHCloudsContext.PeopleGroups;
+            if (string.IsNullOrWhiteSpace(keyWord) == false)
+            {
+                var people = ESHCloudsContext.PeopleDatas
+                    .Where(r => r.Name.Contains(keyWord))
+                    .Select(r => r.GroupDetails);
+
+                var aa = peoplegroups
+                    .Where(r =>
+                        r.GroupName.Contains(keyWord) ||
+                        people.Contains(r.GroupDetails)).ToList();
+            }
+
+            var peoples= from g in ESHCloudsContext.PeopleGroups
+                         from gDetail in ESHCloudsContext.GroupDetails
+                         from p in ESHCloudsContext.PeopleDatas
+                         
+
+            var list = peoplegroups
                 .OrderBy(r => r.GroupOrder)
                 .Include(r => r.GroupDetails)
                 .Select(r => new PeopleGroup
