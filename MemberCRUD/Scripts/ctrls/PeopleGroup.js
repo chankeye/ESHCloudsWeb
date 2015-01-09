@@ -1,5 +1,6 @@
 ﻿$(function () {
 
+    // FactoryDropDownList datasource
     var factoryDataSource = new kendo.data.DataSource({
         transport: {
             read: {
@@ -17,7 +18,11 @@
         dataValueField: "FactoryID",
     });
 
-
+    // Grid datasource
+    var pageSize = 20;
+    var currPage = 1;
+    var keyWord;
+    var factoryId;
     var dataSource = new kendo.data.DataSource({
         transport: {
             read: {
@@ -34,9 +39,10 @@
             },
             parameterMap: function (data, operation) {
                 if (operation === "read") {
-                    var keyWord = $("#searchBar").val();
-                    var factoryId = $("#factoryList").val();//$("#factoryList").data("kendoDropDownList").value();
-                    return JSON.stringify({ skip: data.skip, take: data.take, factoryId:factoryId, keyWord: keyWord });
+                    currPage = data.page;
+                    keyWord = $("#searchBar").val();
+                    factoryId = $("#factoryList").val();
+                    return JSON.stringify({ skip: data.skip, take: data.take, keyWord: keyWord, factoryId: factoryId });
                 }
                 else if (operation === "create" && data) {
                     return JSON.stringify({ peopleData: data });
@@ -60,7 +66,7 @@
                 }
             }
         },
-        pageSize: 10,
+        pageSize: pageSize,
         serverPaging: true,
         serverSorting: true
     });
@@ -77,6 +83,13 @@
             { command: ["edit"], title: "&nbsp;", width: "250px" }]
     });
 
+    // 搜尋button
+    $("#btnSearch").click(function () {
+        dataSource.read({ skip: 0, take: pageSize });
+        sortable();
+    });
+
+    // Jquery UI 拖曳排序
     $('#grid tbody').sortable({
         opacity: 0.6,
         cursor: 'move',
@@ -94,19 +107,20 @@
                 url: '/PeopleGroups/DropOrderItem',
                 data: {
                     oldIndex: oldIndex + 1,
-                    newIndex: newIndex + 1
-                },
-                success: function (data) {
-                    //location.reload();
+                    newIndex: newIndex + 1,
+                    page: currPage,
+                    pageSize: pageSize
                 }
             });
         }
     });
 
-    $("#btnSearch").click(function () {
-        //要求資料來源重新讀取(並指定切至第一頁)
-        dataSource.read();
-        //Grid重新顯示資料 2013-07-19更正，以下可省略
-        //$("#dvGrid").data("kendoGrid").refresh();
-    });
+    // 只有全部資料顯示時才能拖曳排序，不然排序會有問題
+    function sortable() {
+        if (keyWord == "" && factoryId == 0) {
+            $('#grid tbody').sortable("enable");
+        } else {
+            $('#grid tbody').sortable("disable");
+        }
+    }
 });

@@ -22,15 +22,15 @@ namespace ESHCloudsWeb.Controllers
             return View();
         }
 
-        public ActionResult PeopleGroupList(int skip, int take, int factoryId, string keyWord)
+        public ActionResult PeopleGroupList(int skip, int take, string keyWord, int factoryId=0)
         {
-            var result = PeopleGroupLogic.GetPeopleGroupList(skip, take, factoryId, keyWord);
+            var result = PeopleGroupLogic.GetPeopleGroupList(skip, take, keyWord, factoryId);
             return Json(result);
         }
 
-        public ActionResult DropOrderItem(int oldIndex, int newIndex)
+        public ActionResult DropOrderItem(int oldIndex, int newIndex, int page, int pageSize)
         {
-            var result = PeopleGroupLogic.DropOrderItem(oldIndex, newIndex);
+            var result = PeopleGroupLogic.DropOrderItem(oldIndex, newIndex, page, pageSize);
             return Json(result);
         }
 

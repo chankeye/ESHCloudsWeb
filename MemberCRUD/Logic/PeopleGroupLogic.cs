@@ -17,7 +17,7 @@ namespace ESHCloudsWeb.Logic
         }
         Lazy<Models.ESHCloudsV2Context> _ESHCloudsContext = new Lazy<Models.ESHCloudsV2Context>();
 
-        public PeopleGroupList GetPeopleGroupList(int skip, int take, int factoryId, string keyWord)
+        public PeopleGroupList GetPeopleGroupList(int skip, int take, string keyWord, int factoryId)
         {
             var list = ESHCloudsContext.PeopleGroups
                 .OrderBy(r => r.GroupOrder)
@@ -48,8 +48,10 @@ namespace ESHCloudsWeb.Logic
             return result;
         }
 
-        public bool DropOrderItem(int oldIndex, int newIndex)
+        public bool DropOrderItem(int oldIndex, int newIndex, int page, int pageSize)
         {
+            oldIndex = oldIndex + (page - 1) * pageSize;
+            newIndex = newIndex + (page - 1) * pageSize;
             if (oldIndex < newIndex)
             {
                 var currGroup = ESHCloudsContext.PeopleGroups.SingleOrDefault(r => r.GroupOrder == oldIndex);
