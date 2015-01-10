@@ -53,18 +53,35 @@
         //batch: true,
         schema: {
             //取出資料陣列
-            data: function (d) { return d.PeopleGroupDataList; },
+            data: function (d) {
+                //var data = d.PeopleGroupDataList;
+                //var len = data.length;
+                //var dataForDS = [];
+
+                //for (var i = 0; i < len; i++) {
+                //    var obj = {
+                //        GroupID: data[i].GroupID,
+                //        FactoryName: data[i].FactoryName,
+                //        GroupName: data[i].GroupName,
+                //        GroupOrder: data[i].GroupOrder,
+                //        GroupPeopleList: data[i].GroupPeopleList[0] + data[i].GroupPeopleList[1]
+                //    }
+                //    dataForDS.push(obj);
+                //}
+                //return dataForDS;
+                return d.PeopleGroupDataList;
+            },
             //取出資料總筆數(計算頁數用)
-            total: function (d) { return d.Count; },
-            model: {
-                id: "GroupID",
-                fields: {
-                    GroupID: { editable: false, nullable: true },
-                    FactoryName: { validation: { required: true } },
-                    GroupName: { validation: { required: true } },
-                    GroupOrder: { validation: { required: true } },
-                }
-            }
+            total: function (d) { return d.Count; }//,
+            //model: {
+            //    id: "GroupID",
+            //    fields: {
+            //        GroupID: { editable: false, nullable: true },
+            //        FactoryName: { validation: { required: true } },
+            //        GroupName: { validation: { required: true } },
+            //        GroupOrder: { validation: { required: true } },
+            //    }
+            //}
         },
         pageSize: pageSize,
         serverPaging: true,
@@ -80,6 +97,10 @@
             { field: "GroupOrder", title: "排序" },
             { field: "FactoryName", title: "廠區名稱" },
             { field: "GroupName", title: "群組名稱" },
+            {
+                field: "GroupPeopleList", title: "群組成員",
+                template: '#= "<span style=\\"color:\\#86B404\\">" + GroupPeopleList[0] + "</span><br />" + "<span style=\\"color:\\#A4A4A4\\">" + GroupPeopleList[1] + "</span>" #'
+            },
             { command: ["edit"], title: "&nbsp;", width: "250px" }]
     });
 

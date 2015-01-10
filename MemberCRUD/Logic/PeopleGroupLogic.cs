@@ -1,10 +1,9 @@
-﻿using System;
+﻿using System.Text;
+using ESHCloudsWeb.DTO;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core;
 using System.Linq;
-using System.Security.Cryptography;
-using ESHCloudsWeb.DTO;
 
 namespace ESHCloudsWeb.Logic
 {
@@ -22,35 +21,41 @@ namespace ESHCloudsWeb.Logic
         public PeopleGroupList GetPeopleGroupList(int skip, int take, string keyWord, int factoryId)
         {
             IQueryable<Models.PeopleGroup> peoplegroups = ESHCloudsContext.PeopleGroups;
+
+            // 判斷keyword
             if (string.IsNullOrWhiteSpace(keyWord) == false)
             {
-                var people = ESHCloudsContext.PeopleDatas
-                    .Where(r => r.Name.Contains(keyWord))
-                    .Select(r => r.GroupDetails);
+                var names = ESHCloudsContext.GroupDetails
+                    .Select(r => r.PeopleData.Name)
+                    .Where(r => r.Contains(keyWord));
 
-                var aa = peoplegroups
+                var details =
+                    ESHCloudsContext.GroupDetails
+                    .Where(r => names.Contains(r.PeopleData.Name))
+                    .Select(r => r.GroupID);
+
+                peoplegroups = ESHCloudsContext.PeopleGroups
                     .Where(r =>
-                        r.GroupName.Contains(keyWord) ||
-                        people.Contains(r.GroupDetails)).ToList();
+                        details.Contains(r.GroupID) ||
+                        r.GroupName.Contains(keyWord));
             }
 
-            var peoples= from g in ESHCloudsContext.PeopleGroups
-                         from gDetail in ESHCloudsContext.GroupDetails
-                         from p in ESHCloudsContext.PeopleDatas
-                         
+            // 判斷factoryId
+            if (factoryId != 0)
+                peoplegroups = peoplegroups.Where(r => r.FactoryID == factoryId);
 
             var list = peoplegroups
                 .OrderBy(r => r.GroupOrder)
                 .Include(r => r.GroupDetails)
-                .Select(r => new PeopleGroup
+                .Select(r => new
                 {
-                    FactoryName = r.FactoryMaster.FactoryName,
-                    GroupID = r.GroupID,
-                    GroupName = r.GroupName,
-                    GroupOrder = r.GroupOrder,
-                    GroupPeopleList = r.GroupDetails.Select(s => new PeopleGroupDetail
+                    r.FactoryMaster.FactoryName,
+                    r.GroupID,
+                    r.GroupName,
+                    r.GroupOrder,
+                    PeopleList = r.GroupDetails.Select(s => new
                     {
-                        PeopleID = s.PeopleID,
+                        PeopleName = s.PeopleData.Name,
                         MailType = s.MailType
                     }).ToList(),
                 })
@@ -58,10 +63,44 @@ namespace ESHCloudsWeb.Logic
                 .Take(take)
                 .ToList();
 
+            var peopleGroupDataList = list.Select(r => new PeopleGroup
+            {
+                FactoryName = r.FactoryName,
+                GroupID = r.GroupID,
+                GroupName = r.GroupName,
+                GroupOrder = r.GroupOrder,
+            }).ToList();
+
+            // 組合群組成員
+            foreach (var item in list)
+            {
+                var to = "";
+                var cc = "";
+                foreach (var people in item.PeopleList)
+                {
+                    if (people.MailType.ToUpper() == "TO")
+                    {
+                        if (string.IsNullOrWhiteSpace(to))
+                            to = people.PeopleName;
+                        else
+                            to = to + "," + people.PeopleName;
+                    }
+                    else if (people.MailType.ToUpper() == "CC")
+                    {
+                        if (string.IsNullOrWhiteSpace(cc))
+                            cc = people.PeopleName;
+                        else
+                            cc = cc + "," + people.PeopleName;
+                    }
+                }
+                var peopleGroup = peopleGroupDataList.Single(r => r.GroupID == item.GroupID);
+                peopleGroup.GroupPeopleList = new List<string> { to, cc };
+            }
+
             var count = ESHCloudsContext.PeopleGroups.Count();
             var result = new PeopleGroupList
             {
-                PeopleGroupDataList = list,
+                PeopleGroupDataList = peopleGroupDataList,
                 Count = count
             };
 

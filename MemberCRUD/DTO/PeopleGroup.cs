@@ -15,6 +15,6 @@ namespace ESHCloudsWeb.DTO
         public int GroupID { get; set; }
         public string GroupName { get; set; }
         public int GroupOrder { get; set; }
-        public List<PeopleGroupDetail> GroupPeopleList { get; set; }
+        public List<string> GroupPeopleList { get; set; }
     }
 }
