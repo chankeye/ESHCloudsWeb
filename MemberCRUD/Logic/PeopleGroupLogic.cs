@@ -1,5 +1,4 @@
-﻿using System.Text;
-using ESHCloudsWeb.DTO;
+﻿using ESHCloudsWeb.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,6 +17,37 @@ namespace ESHCloudsWeb.Logic
         }
         Lazy<Models.ESHCloudsV2Context> _ESHCloudsContext = new Lazy<Models.ESHCloudsV2Context>();
 
+        // 新增群組
+        public bool CreatePeopleGroup(int factoryId, string groupName, List<CreatePeopleGroupPeople> peopleList)
+        {
+            if (string.IsNullOrWhiteSpace(groupName))
+                return false;
+
+            var hasFactory = ESHCloudsContext.FactoryMasters.SingleOrDefault(r => r.FactoryID == factoryId);
+            if (hasFactory == null)
+                return false;
+
+            var order = ESHCloudsContext.PeopleGroups.Max(r => r.GroupOrder) + 1;
+            var newPeopleGroup = new Models.PeopleGroup
+            {
+                FactoryID = factoryId,
+                GroupName = groupName,
+                GroupOrder = order
+            };
+            ESHCloudsContext.PeopleGroups.Add(newPeopleGroup);
+            ESHCloudsContext.SaveChanges();
+
+            foreach (var item in peopleList)
+            {
+                var sql = "Insert into [GroupDetail] (GroupID, PeopleID, MailType) values(" + newPeopleGroup.GroupID +
+                          ", " + item.PeopleID + " , '" + item.MailType + "')";
+                ESHCloudsContext.Database.ExecuteSqlCommand(sql);
+            }
+
+            return true;
+        }
+
+        // 取得群組列表
         public PeopleGroupList GetPeopleGroupList(int skip, int take, string keyWord, int factoryId)
         {
             IQueryable<Models.PeopleGroup> peoplegroups = ESHCloudsContext.PeopleGroups;
@@ -107,6 +137,7 @@ namespace ESHCloudsWeb.Logic
             return result;
         }
 
+        // 拖曳排序
         public bool DropOrderItem(int oldIndex, int newIndex, int page, int pageSize)
         {
             oldIndex = oldIndex + (page - 1) * pageSize;
@@ -153,6 +184,7 @@ namespace ESHCloudsWeb.Logic
             return true;
         }
 
+        // 取得廠區列表
         public List<FactoryData> GetFactoryList()
         {
             var list = new List<FactoryData>
@@ -174,6 +206,151 @@ namespace ESHCloudsWeb.Logic
 
             return list;
         }
+
+        // 取得人員列表
+        public List<PeopleSelector> GetPeopleSelectList(List<int> peopleIDs = null, string keyWord = "")
+        {
+            var peoples = ESHCloudsContext.PeopleDatas.Select(r => new PeopleSelector
+            {
+                Checked = false,
+                Name = r.DepartData.DepartName + " " + r.Name,
+                Id = r.PeopleID
+            });
+
+            if (string.IsNullOrWhiteSpace(keyWord) == false)
+                peoples = peoples.Where(r => r.Name.Contains(keyWord));
+
+            var list = peoples.ToList();
+
+            if (peopleIDs != null)
+            {
+                foreach (var id in peopleIDs)
+                    list.Single(r => r.Id == id).Checked = true;
+            }
+
+            return list;
+        }
+
+        // 取得新增群組時的人員列表
+        public List<CreatePeopleGroupPeople> GetPeopleGroupPeopleList(List<int> peopleIDs = null)
+        {
+            if (peopleIDs == null)
+                return new List<CreatePeopleGroupPeople>();
+
+            return ESHCloudsContext.PeopleDatas
+                .Where(r => peopleIDs.Contains(r.PeopleID))
+                .Select(r => new CreatePeopleGroupPeople
+                {
+                    PeopleID = r.PeopleID,
+                    PeopleName = r.Name,
+                    DepartName = r.DepartData.DepartName,
+                    MailType = "TO"
+                })
+                .ToList();
+        }
+
+        public EditPeopleGroup EditGroupInit(int id)
+        {
+            var group = ESHCloudsContext
+                .PeopleGroups
+                .SingleOrDefault(r => r.GroupID == id);
+            if (group == null)
+                return new EditPeopleGroup();
+
+            var result = new EditPeopleGroup
+            {
+                FactoryID = group.FactoryID,
+                GroupName = group.GroupName,
+            };
+
+            return result;
+        }
+
+        public List<CreatePeopleGroupPeople> EditGroupPeopleListInit(int id)
+        {
+            var group = ESHCloudsContext
+                .PeopleGroups
+                .Include(r => r.GroupDetails)
+                .SingleOrDefault(r => r.GroupID == id);
+            if (group == null)
+                return new List<CreatePeopleGroupPeople>();
+
+            var result = new List<CreatePeopleGroupPeople>();
+            foreach (var item in group.GroupDetails)
+            {
+                result.Add(new CreatePeopleGroupPeople
+                {
+                    PeopleID = item.PeopleID,
+                    DepartName = item.PeopleData.DepartData.DepartName,
+                    PeopleName = item.PeopleData.Name,
+                    MailType = item.MailType
+                });
+            }
+
+            return result;
+        }
+
+        // 修改群組
+        public bool EditPeopleGroup(int id, int factoryId, string groupName, List<CreatePeopleGroupPeople> peopleList)
+        {
+            if (string.IsNullOrWhiteSpace(groupName))
+                return false;
+
+            var hasFactory = ESHCloudsContext.FactoryMasters.Any(r => r.FactoryID == factoryId);
+            if (hasFactory == false)
+                return false;
+
+            var group = ESHCloudsContext.PeopleGroups.SingleOrDefault(r => r.GroupID == id);
+            if (group == null)
+                return false;
+
+            group.FactoryID = factoryId;
+            group.GroupName = groupName;
+
+            ESHCloudsContext.SaveChanges();
+
+            var deleteSql = "Delete [GroupDetail] where GroupID = " + id;
+            ESHCloudsContext.Database.ExecuteSqlCommand(deleteSql);
+
+            foreach (var item in peopleList)
+            {
+                var insertSql = "Insert into [GroupDetail] (GroupID, PeopleID, MailType) values(" + id +
+                          ", " + item.PeopleID + " , '" + item.MailType + "')";
+                ESHCloudsContext.Database.ExecuteSqlCommand(insertSql);
+            }
+
+            return true;
+        }
+
+        public bool Delete(int id)
+        {
+            var group = ESHCloudsContext.PeopleGroups.SingleOrDefault(r => r.GroupID == id);
+            if (group == null)
+                return false;
+
+            if (group.AlarmMasters.Count() != 0)
+                return false;
+
+            try
+            {
+                var deleteSql = "Delete [GroupDetail] where GroupID = " + id;
+                ESHCloudsContext.Database.ExecuteSqlCommand(deleteSql);
+
+                ESHCloudsContext.PeopleGroups.Remove(group);
+                ESHCloudsContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        //public List<CreatePeopleGroupPeople> GetCreatePeopleGroupPeopleList(List<int> peopleIds = null )
+        //{
+        //       ESHCloudsContext.PeopleDatas.
+        //}
 
         //public bool CreatePersion(PeopleData data)
         //{

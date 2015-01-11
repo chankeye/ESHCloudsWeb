@@ -1,59 +1,33 @@
-﻿@model ESHCloudsWeb.DB.PeopleGroup
-
-@{
+﻿@{
     ViewBag.Title = "Create";
 }
-
-<h2>Create</h2>
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>PeopleGroup</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.CN, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CN, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CN, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GroupID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.GroupID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GroupID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GroupName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.GroupName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GroupOrder, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.GroupOrder, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GroupOrder, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+@section Scripts{
+    <script src="~/Scripts/ctrls/PeopleGroupCreate.js"></script>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<h2>新增群組</h2>
+
+<p>新增廠區：<input id="factoryList" required /></p>
+<p>群組名稱：<input id="txtGroupName" type="text" placeholder="群組名稱" required /></p>
+<p>選擇人員：<button id="btnAdd" type="button">+加入更多</button></p>
+
+<div id="dialog-form" title="Create new user">
+    <form>
+        <fieldset>
+            <p>
+                <input id="searchBar" type="search" placeholder="部門或人員關鍵字" />
+                <button id="btnSearch" type="button">搜尋</button>
+            </p>
+            <div>
+                <div id="peopleGrid"></div>
+            </div>
+
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            @*<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">*@
+        </fieldset>
+    </form>
 </div>
+<div>
+    <div id="grid"></div>
+</div>
+<button id="btnSave" type="button">儲存</button>

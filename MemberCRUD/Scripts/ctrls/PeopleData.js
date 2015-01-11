@@ -52,7 +52,7 @@
                     UserID: { validation: { required: true } },
                     UserPasd: { validation: { required: true } },
                     Name: { validation: { required: true } },
-                    Mail: { type: "email", validation: { required: true } },
+                    Mail: { type: "email", validation: { required: true } }
                 }
             }
         },

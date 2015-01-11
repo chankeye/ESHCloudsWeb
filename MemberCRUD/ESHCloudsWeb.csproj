@@ -355,6 +355,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\ctrls\PeopleGroup.js" />
     <Content Include="Scripts\ctrls\PeopleData.js" />
+    <Content Include="Scripts\ctrls\PeopleGroupEdit.js" />
+    <Content Include="Scripts\ctrls\PeopleGroupCreate.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -867,9 +869,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PeopleDataController.cs" />
     <Compile Include="Controllers\PeopleGroupsController.cs" />
+    <Compile Include="DTO\EditPeopleGroup.cs" />
+    <Compile Include="DTO\CreatePeopleGroupPeople.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DTO\PeopleSelector.cs" />
     <Compile Include="DTO\FactoryData.cs" />
     <Compile Include="DTO\DepartData.cs" />
-    <Compile Include="DTO\PeopleGroupDetail.cs" />
     <Compile Include="DTO\PeopleGroup.cs" />
     <Compile Include="DTO\PeopleData.cs" />
     <Compile Include="Global.asax.cs">
@@ -1026,8 +1032,6 @@
     <Content Include="Views\PeopleData\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\PeopleGroups\Create.cshtml" />
-    <Content Include="Views\PeopleGroups\Delete.cshtml" />
-    <Content Include="Views\PeopleGroups\Details.cshtml" />
     <Content Include="Views\PeopleGroups\Edit.cshtml" />
     <Content Include="Views\PeopleGroups\Index.cshtml" />
     <None Include="Web.Debug.config">

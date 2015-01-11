@@ -1,5 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Web.Mvc;
+using ESHCloudsWeb.DTO;
 using ESHCloudsWeb.Logic;
+using ESHCloudsWeb.Models;
 
 namespace ESHCloudsWeb.Controllers
 {
@@ -22,7 +27,7 @@ namespace ESHCloudsWeb.Controllers
             return View();
         }
 
-        public ActionResult PeopleGroupList(int skip, int take, string keyWord, int factoryId=0)
+        public ActionResult PeopleGroupList(int skip, int take, string keyWord, int factoryId = 0)
         {
             var result = PeopleGroupLogic.GetPeopleGroupList(skip, take, keyWord, factoryId);
             return Json(result);
@@ -40,51 +45,83 @@ namespace ESHCloudsWeb.Controllers
             return Json(result);
         }
 
-        //private ESHCloudsEntities db = new ESHCloudsEntities();
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-        //// GET: PeopleGroups
-        //public ActionResult Index()
-        //{
-        //    return View(db.PeopleGroups.ToList());
-        //}
+        public ActionResult GetPeopleSelectList(List<int> peopleIDs, string keyWord)
+        {
+            var result = PeopleGroupLogic.GetPeopleSelectList(peopleIDs, keyWord);
+            return Json(result);
+        }
 
-        //// GET: PeopleGroups/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        public ActionResult CreatePeopleGroup(int factoryId, string groupName, List<CreatePeopleGroupPeople> peopleList)
+        {
+            var result = PeopleGroupLogic.CreatePeopleGroup(factoryId, groupName, peopleList);
+            return Json(result);
+        }
 
-        //// POST: PeopleGroups/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "CN,GroupID,GroupName,GroupOrder")] PeopleGroup peopleGroup)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.PeopleGroups.Add(peopleGroup);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
+        public ActionResult GetPeopleGroupPeopleList(List<int> peopleIDs)
+        {
+            var result = PeopleGroupLogic.GetPeopleGroupPeopleList(peopleIDs);
+            return Json(result);
+        }
 
-        //    return View(peopleGroup);
-        //}
+        public ActionResult GetMailTypeList()
+        {
+            var list = new List<object>
+            {
+                new
+                {
+                    Id = 1,
+                    Name = "TO"
+                },
+                new
+                {
+                    Id = 2,
+                    Name = "CC"
+                }
+            };
+            return Json(list);
+        }
 
-        //// GET: PeopleGroups/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    PeopleGroup peopleGroup = db.PeopleGroups.Find(id);
-        //    if (peopleGroup == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(peopleGroup);
-        //}
+        // GET: PeopleGroups/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditInit(int id)
+        {
+            var result = PeopleGroupLogic.EditGroupInit(id);
+            return Json(result);
+        }
+
+        [HttpPost]
+        public ActionResult EditPeoplesInit(int id)
+        {
+            var result = PeopleGroupLogic.EditGroupPeopleListInit(id);
+            return Json(result);
+        }
+
+        public ActionResult EditPeopleGroup(int id, int factoryId, string groupName, List<CreatePeopleGroupPeople> peopleList)
+        {
+            var result = PeopleGroupLogic.EditPeopleGroup(id, factoryId, groupName, peopleList);
+            return Json(result);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var result = PeopleGroupLogic.Delete(id);
+            return Json(result);
+        }
 
         //// POST: PeopleGroups/Edit/5
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 

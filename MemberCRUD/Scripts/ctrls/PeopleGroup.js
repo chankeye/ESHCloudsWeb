@@ -31,21 +31,12 @@
                 dataType: "json",
                 contentType: "application/json"
             },
-            create: {
-                type: "POST",
-                url: "/PeopleGroups/Create",
-                dataType: "json",
-                contentType: "application/json"
-            },
             parameterMap: function (data, operation) {
                 if (operation === "read") {
                     currPage = data.page;
                     keyWord = $("#searchBar").val();
                     factoryId = $("#factoryList").val();
                     return JSON.stringify({ skip: data.skip, take: data.take, keyWord: keyWord, factoryId: factoryId });
-                }
-                else if (operation === "create" && data) {
-                    return JSON.stringify({ peopleData: data });
                 }
                 return data;
             }
@@ -92,17 +83,31 @@
         dataSource: dataSource,
         pageable: true,
         height: 550,
-        toolbar: ["create"],
+        toolbar: [{
+            name: "Add",
+            text: "Add new record",
+        }],
         columns: [
-            { field: "GroupOrder", title: "排序" },
             { field: "FactoryName", title: "廠區名稱" },
             { field: "GroupName", title: "群組名稱" },
             {
                 field: "GroupPeopleList", title: "群組成員",
-                template: '#= "<span style=\\"color:\\#86B404\\">" + GroupPeopleList[0] + "</span><br />" + "<span style=\\"color:\\#A4A4A4\\">" + GroupPeopleList[1] + "</span>" #'
+                template: '#= "<span style=\\"color:\\#86B404\\">" + GroupPeopleList[0] + "</span><br />" +' +
+                          ' "<span style=\\"color:\\#A4A4A4\\">" + GroupPeopleList[1] + "</span>" #'
             },
-            { command: ["edit"], title: "&nbsp;", width: "250px" }]
+            { command: [{ name: "Edit", text: "Edit", click: redirectEdit }], title: "&nbsp;", width: "100px" }]
     });
+
+    $(".k-grid-Add", "#grid").bind("click", function (ev) {
+        location.href = "/PeopleGroups/Create";
+    });
+
+    function redirectEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        location.href = "/PeopleGroups/Edit?Id=" + dataItem.GroupID;
+    }
 
     // 搜尋button
     $("#btnSearch").click(function () {
