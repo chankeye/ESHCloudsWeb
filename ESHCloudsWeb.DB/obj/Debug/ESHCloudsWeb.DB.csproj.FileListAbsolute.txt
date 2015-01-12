@@ -25,6 +25,5 @@ D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\EntityFramework.dll
 D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\EntityFramework.SqlServer.dll
 D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\EntityFramework.xml
 D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\EntityFramework.SqlServer.xml
-D:\ESHCloudsWeb\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.csprojResolveAssemblyReference.cache
 D:\ESHCloudsWeb\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.dll
 D:\ESHCloudsWeb\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.pdb

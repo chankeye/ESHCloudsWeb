@@ -165,6 +165,8 @@
     <Content Include="Content\styles\HighContrast\sprite_2x.png" />
     <Content Include="Content\styles\images\back.png" />
     <Content Include="Content\styles\images\kendoui.svg" />
+    <Content Include="Content\styles\images\kendoui.ttf" />
+    <Content Include="Content\styles\images\kendoui.woff" />
     <Content Include="Content\styles\images\wp8_icons.png" />
     <Content Include="Content\styles\images\wp8_inverseicons.png" />
     <Content Include="Content\styles\kendo.black.min.css" />
@@ -252,6 +254,7 @@
     <Content Include="Content\styles\Moonlight\slider-v.gif" />
     <Content Include="Content\styles\Moonlight\sprite.png" />
     <Content Include="Content\styles\Moonlight\sprite_2x.png" />
+    <Content Include="Content\styles\Moonlight\Thumbs.db" />
     <Content Include="Content\styles\Silver\editor.png" />
     <Content Include="Content\styles\Silver\imagebrowser.png" />
     <Content Include="Content\styles\Silver\indeterminate.gif" />
@@ -264,6 +267,7 @@
     <Content Include="Content\styles\Silver\slider-v.gif" />
     <Content Include="Content\styles\Silver\sprite.png" />
     <Content Include="Content\styles\Silver\sprite_2x.png" />
+    <Content Include="Content\styles\Silver\Thumbs.db" />
     <Content Include="Content\styles\textures\brushed-metal.png" />
     <Content Include="Content\styles\textures\dots1.png" />
     <Content Include="Content\styles\textures\dots10.png" />
@@ -292,6 +296,7 @@
     <Content Include="Content\styles\textures\stripe4.png" />
     <Content Include="Content\styles\textures\stripe5.png" />
     <Content Include="Content\styles\textures\stripe6.png" />
+    <Content Include="Content\styles\textures\Thumbs.db" />
     <Content Include="Content\styles\textures\transparency.png" />
     <Content Include="Content\styles\textures\transtexture.png" />
     <Content Include="Content\styles\Uniform\editor.png" />
@@ -306,6 +311,7 @@
     <Content Include="Content\styles\Uniform\slider-v.gif" />
     <Content Include="Content\styles\Uniform\sprite.png" />
     <Content Include="Content\styles\Uniform\sprite_2x.png" />
+    <Content Include="Content\styles\Uniform\Thumbs.db" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -344,12 +350,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\styles\images\kendoui.ttf" />
-    <Content Include="Content\styles\images\kendoui.woff" />
-    <Content Include="Content\styles\Moonlight\Thumbs.db" />
-    <Content Include="Content\styles\Silver\Thumbs.db" />
-    <Content Include="Content\styles\textures\Thumbs.db" />
-    <Content Include="Content\styles\Uniform\Thumbs.db" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
