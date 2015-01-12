@@ -18,3 +18,13 @@ D:\MemberCRUD\ESHCloudsWeb.DB\bin\Debug\EntityFramework.SqlServer.xml
 D:\MemberCRUD\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.csprojResolveAssemblyReference.cache
 D:\MemberCRUD\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.dll
 D:\MemberCRUD\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.pdb
+D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\ESHCloudsWeb.DB.dll.config
+D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\ESHCloudsWeb.DB.dll
+D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\ESHCloudsWeb.DB.pdb
+D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\EntityFramework.dll
+D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\EntityFramework.SqlServer.dll
+D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\EntityFramework.xml
+D:\ESHCloudsWeb\ESHCloudsWeb.DB\bin\Debug\EntityFramework.SqlServer.xml
+D:\ESHCloudsWeb\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.csprojResolveAssemblyReference.cache
+D:\ESHCloudsWeb\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.dll
+D:\ESHCloudsWeb\ESHCloudsWeb.DB\obj\Debug\ESHCloudsWeb.DB.pdb

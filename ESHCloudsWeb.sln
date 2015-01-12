@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESHCloudsWeb", "MemberCRUD\ESHCloudsWeb.csproj", "{C2CB972F-9C07-4D51-9AA8-DFB9E938772F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESHCloudsWeb", "ESHCloudsWeb\ESHCloudsWeb.csproj", "{C2CB972F-9C07-4D51-9AA8-DFB9E938772F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESHCloudsWeb.DB", "ESHCloudsWeb.DB\ESHCloudsWeb.DB.csproj", "{DDF9E7F4-40DB-4099-A700-6311B8D45129}"
 EndProject

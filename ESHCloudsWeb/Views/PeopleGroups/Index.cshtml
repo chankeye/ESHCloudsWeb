@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@section Scripts{
+    <script src="~/Scripts/ctrls/PeopleGroup.js"></script>
+}
+
+<p>
+    <input id="factoryList" value="0" />
+    <input id="searchBar" type="search" placeholder="群組或成員關鍵字" />
+    <button id="btnSearch" type="button" data-loading-text="搜尋中...">搜尋</button>
+</p>
+
+<div>
+    <div id="grid"></div>
+</div>
