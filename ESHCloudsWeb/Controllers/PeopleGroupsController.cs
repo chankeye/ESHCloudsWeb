@@ -60,9 +60,9 @@ namespace ESHCloudsWeb.Controllers
             return Json(result);
         }
 
-        public ActionResult GetPeopleGroupPeopleList(List<int> peopleIDs)
+        public ActionResult GetPeopleGroupPeopleList(List<int> peopleIDs, List<CreatePeopleGroupPeople> selectedList)
         {
-            var result = PeopleGroupLogic.GetPeopleGroupPeopleList(peopleIDs);
+            var result = PeopleGroupLogic.GetPeopleGroupPeopleList(peopleIDs, selectedList);
             return Json(result);
         }
 

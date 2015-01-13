@@ -113,7 +113,7 @@
             },
             parameterMap: function (data, operation) {
                 if (operation === "read") {
-                    return JSON.stringify({ peopleIDs: data.peopleIDs });
+                    return JSON.stringify({ peopleIDs: data.peopleIDs, selectedList: data.selectedList });
                 }
                 return data;
             },
@@ -281,6 +281,7 @@
     function addPeople() {
         var array = [];
         var displayedData = $("#peopleGrid").data().kendoGrid.dataSource.view();
+        var selectedList = $("#grid").data().kendoGrid.dataSource.view();
         for (var i = 0; i < displayedData.length; i++) {
             if (displayedData[i].Checked == 1) {
                 //var PeopleID = displayedData[i].Id;
@@ -294,7 +295,7 @@
         }
         dialog.dialog("close");
         $("#grid").data("kendoGrid").setDataSource(dataSource);
-        dataSource.read({ peopleIDs: array });
+        dataSource.read({ peopleIDs: array, selectedList: selectedList });
         //$("#grid").data("kendoGrid").refresh();
     }
 

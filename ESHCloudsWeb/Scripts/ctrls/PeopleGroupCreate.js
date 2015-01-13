@@ -45,7 +45,7 @@
             },
             parameterMap: function (data, operation) {
                 if (operation === "read") {
-                    return JSON.stringify({ peopleIDs: data.peopleIDs });
+                    return JSON.stringify({ peopleIDs: data.peopleIDs, selectedList: data.selectedList });
                 }
                 return data;
             },
@@ -177,20 +177,14 @@
     function addPeople() {
         var array = [];
         var displayedData = $("#peopleGrid").data().kendoGrid.dataSource.view();
+        var selectedList = $("#grid").data().kendoGrid.dataSource.view();
         for (var i = 0; i < displayedData.length; i++) {
             if (displayedData[i].Checked == 1) {
-                //var PeopleID = displayedData[i].Id;
-                //var DepartName = displayedData[i].Name.split(' ')[0];
-                //var PeopleName = displayedData[i].Name.split(' ')[1];
-
-                //var data = { PeopleID: PeopleID, DepartName: DepartName, PeopleName: PeopleName };
-                //dataSource.push(data);
                 array.push(displayedData[i].Id);
             }
         }
         dialog.dialog("close");
-        dataSource.read({ peopleIDs: array });
-        //$("#grid").data("kendoGrid").refresh();
+        dataSource.read({ peopleIDs: array, selectedList: selectedList });
     }
 
     // 確定
@@ -201,11 +195,7 @@
         modal: true,
         buttons: {
             "加入": addPeople,
-            //"取消": function () {
-            //    dialog.dialog("close");
-            //}
+
         }
-        //close: function () {
-        //}
     });
 });

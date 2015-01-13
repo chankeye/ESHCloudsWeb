@@ -232,21 +232,26 @@ namespace ESHCloudsWeb.Logic
         }
 
         // 取得新增群組時的人員列表
-        public List<CreatePeopleGroupPeople> GetPeopleGroupPeopleList(List<int> peopleIDs = null)
+        public List<CreatePeopleGroupPeople> GetPeopleGroupPeopleList(List<int> peopleIDs = null, List<CreatePeopleGroupPeople> selectedList = null)
         {
-            if (peopleIDs == null)
-                return new List<CreatePeopleGroupPeople>();
+            var peopleDatas = new List<CreatePeopleGroupPeople>();
+            if (selectedList != null)
+                peopleDatas = selectedList;
 
-            return ESHCloudsContext.PeopleDatas
-                .Where(r => peopleIDs.Contains(r.PeopleID))
-                .Select(r => new CreatePeopleGroupPeople
+            if (peopleIDs != null)
+            {
+                var newPeoples = peopleIDs.Where(r => peopleDatas.Select(s => s.PeopleID).Contains(r) == false).ToList();
+                var peoples = ESHCloudsContext.PeopleDatas.Where(r => newPeoples.Contains(r.PeopleID));
+                peopleDatas.AddRange(peoples.Select(r => new CreatePeopleGroupPeople
                 {
                     PeopleID = r.PeopleID,
                     PeopleName = r.Name,
                     DepartName = r.DepartData.DepartName,
                     MailType = "TO"
-                })
-                .ToList();
+                }).ToList());
+            }
+
+            return peopleDatas;
         }
 
         public EditPeopleGroup EditGroupInit(int id)
