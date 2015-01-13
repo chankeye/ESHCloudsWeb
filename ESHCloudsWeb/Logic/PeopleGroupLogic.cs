@@ -331,6 +331,10 @@ namespace ESHCloudsWeb.Logic
             if (group.AlarmMasters.Count() != 0)
                 return false;
 
+            var groups = ESHCloudsContext.PeopleGroups.Where(r => r.GroupOrder > group.GroupOrder);
+            foreach (var item in groups)
+                item.GroupOrder--;
+
             try
             {
                 var deleteSql = "Delete [GroupDetail] where GroupID = " + id;
