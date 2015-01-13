@@ -11,21 +11,21 @@
 <p>群組名稱：<input id="txtGroupName" type="text" placeholder="群組名稱" required /></p>
 <p>選擇人員：<button id="btnAdd" type="button">+加入更多</button></p>
 
-<div id="dialog-form" title="Create new user">
-    <form>
-        <fieldset>
-            <p>
-                <input id="searchBar" type="search" placeholder="部門或人員關鍵字" />
-                <button id="btnSearch" type="button">搜尋</button>
-            </p>
-            <div>
-                <div id="peopleGrid"></div>
-            </div>
+<div id="dialog-form" title="人員選擇器">
+    @*<form>
+        <fieldset>*@
+    <p>
+        <input id="searchBar" type="search" placeholder="部門或人員關鍵字" />
+        <button id="btnSearch" type="button">搜尋</button>
+    </p>
+    <div>
+        <div id="peopleGrid"></div>
+    </div>
 
-            <!-- Allow form submission with keyboard without duplicating the dialog button -->
-            @*<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">*@
-        </fieldset>
-    </form>
+    <!-- Allow form submission with keyboard without duplicating the dialog button -->
+    @*<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">*@
+    @*</fieldset>
+        </form>*@
 </div>
 <div>
     <div id="grid"></div>

@@ -303,14 +303,14 @@
         autoOpen: false,
         height: 300,
         width: 350,
-        modal: true,
+        modal: false,
         buttons: {
             "加入": addPeople,
             //"取消": function () {
             //    dialog.dialog("close");
             //}
+        },
+        close: function () {
         }
-        //close: function () {
-        //}
     });
 });
