@@ -296,15 +296,16 @@ namespace ESHCloudsWeb.Logic
             if (string.IsNullOrWhiteSpace(groupName))
                 return false;
 
-            var hasFactory = ESHCloudsContext.FactoryMasters.Any(r => r.FactoryID == factoryId);
-            if (hasFactory == false)
-                return false;
+
 
             var group = ESHCloudsContext.PeopleGroups.SingleOrDefault(r => r.GroupID == id);
             if (group == null)
                 return false;
 
-            group.FactoryID = factoryId;
+            var hasFactory = ESHCloudsContext.FactoryMasters.Any(r => r.FactoryID == factoryId);
+            if (hasFactory == true)
+                group.FactoryID = factoryId;
+
             group.GroupName = groupName;
 
             ESHCloudsContext.SaveChanges();
